@@ -1,4 +1,4 @@
-<?php namespace Linkthrow\Ffmpeg;
+<?php namespace Linkthrow\Ffmpeg\Classes;
 
 use Config;
 use Linkthrow\Ffmpeg\Helpers;

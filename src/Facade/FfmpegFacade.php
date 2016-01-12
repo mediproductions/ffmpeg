@@ -1,4 +1,4 @@
-<?php namespace Linkthrow\Ffmpeg;
+<?php namespace Linkthrow\Ffmpeg\Facade;
 
 use Illuminate\Support\Facades\Facade;
 
