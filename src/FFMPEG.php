@@ -1,7 +1,7 @@
-<?php namespace Closca\Sonus;
+<?php namespace Linkthrow\Ffmpeg;
 
 use Config;
-use Closca\Sonus\Helpers;
+use Linkthrow\Ffmpeg\Helpers;
 
 /**
  * Laravel Audio Conversion Package
@@ -11,7 +11,7 @@ use Closca\Sonus\Helpers;
  * @author     Rafael Sampaio <rafaelsampaio@live.com>
  */
 
-class Sonus
+class FFMPEG
 {
     /**
      * Returns full path of ffmpeg
@@ -19,7 +19,7 @@ class Sonus
      */
     protected static function getConverterPath()
     {
-        return Config::get('sonus::ffmpeg');
+        return Config::get('ffmpeg::ffmpeg');
     }
 
     /**
@@ -28,7 +28,7 @@ class Sonus
      */
     protected static function getProbePath()
     {
-        return Config::get('sonus::ffprobe');
+        return Config::get('ffmpeg::ffprobe');
     }
 
     /**
@@ -37,7 +37,7 @@ class Sonus
      */
     protected static function getTempPath()
     {
-        return Config::get('sonus::tmp_dir');
+        return Config::get('ffmpeg::tmp_dir');
     }
 
     /**
@@ -192,7 +192,7 @@ class Sonus
         $formats = array_merge(self::getSupportedAudioEncoders(), self::getSupportedVideoEncoders());
 
         // Return boolean if they can be encoded or not
-        if(!in_array($format, $formats)) 
+        if(!in_array($format, $formats))
         {
             return false;
         } else {
@@ -211,7 +211,7 @@ class Sonus
         $formats = array_merge(self::getSupportedAudioDecoders(), self::getSupportedVideoDecoders());
 
         // Return boolean if they can be encoded or not
-        if(!in_array($format, $formats)) 
+        if(!in_array($format, $formats))
         {
             return false;
         } else  {
@@ -228,12 +228,12 @@ class Sonus
     public static function getMediaInfo($input, $type = null)
     {
         // Just making sure everything goes smooth
-        if (substr($input, 0, 2) == '-i') 
+        if (substr($input, 0, 2) == '-i')
         {
             $input = substr($input, 3);
         }
 
-        switch ($type) 
+        switch ($type)
         {
             case 'json':
                 $command = self::getProbePath().' -v quiet -print_format json -show_format -show_streams -pretty -i '.$input.' 2>&1';
@@ -250,7 +250,7 @@ class Sonus
                 $command = self::getProbePath().' -v quiet -print_format csv -show_format -show_streams -pretty -i '.$input.' 2>&1';
                 $output  = shell_exec($command);
                 break;
-            
+
             default:
                 $command = self::getProbePath().' -v quiet -print_format json -show_format -show_streams -pretty -i '.$input.' 2>&1';
                 $output  = shell_exec($command);
@@ -275,7 +275,7 @@ class Sonus
         $count = round($count);
 
         // Return false if user requests 0 frames or round function fails
-        if ($count < 1) 
+        if ($count < 1)
         {
             return false;
         }
@@ -287,7 +287,7 @@ class Sonus
     }
 
     /**
-     * Retrieves video thumbnails 
+     * Retrieves video thumbnails
      * @param  string  $input  video input
      * @param  string  $output output filename
      * @param  integer $count  number of thumbnails to generate
@@ -302,7 +302,7 @@ class Sonus
         $total=round($total);
 
         // Return false if user requests 0 frames or round function fails
-        if ($count < 1) 
+        if ($count < 1)
         {
             return false;
         }
@@ -342,10 +342,10 @@ class Sonus
      * Returns object instance for chainable methods
      * @return object
      */
-    public static function convert() 
+    public static function convert()
     {
-        $sonus = new Sonus;
-        return $sonus;
+        $ffmpeg = new ffmpeg;
+        return $ffmpeg;
     }
 
     /**
@@ -356,7 +356,7 @@ class Sonus
     public function progress($var)
     {
         // If value is null pass current timestamp
-        if (is_null($var)) 
+        if (is_null($var))
         {
             $this->progress = date('U');
             return $this;
@@ -374,7 +374,7 @@ class Sonus
     public function input($var)
     {
         // Value must be text
-        if (!is_string($var)) 
+        if (!is_string($var))
         {
             return false;
         }
@@ -391,7 +391,7 @@ class Sonus
     public function output($var)
     {
         // Value must be text
-        if (!is_string($var)) 
+        if (!is_string($var))
         {
             return false;
         }
@@ -407,7 +407,7 @@ class Sonus
      */
     public function overwrite($var = true)
     {
-        switch ($var) 
+        switch ($var)
         {
             case true:
                 array_push($this->parameters, '-y');
@@ -433,7 +433,7 @@ class Sonus
     public function timelimit($var)
     {
         // Value must be numeric
-        if (!is_numeric($var)) 
+        if (!is_numeric($var))
         {
             return false;
         }
@@ -452,12 +452,12 @@ class Sonus
     public function codec($var, $type = 'audio')
     {
         // Value must not be null
-        if (is_null($var)) 
+        if (is_null($var))
         {
             return false;
         }
 
-        switch($type) 
+        switch($type)
         {
             case 'audio':
                 array_push($this->parameters, '-c:a '.$var);
@@ -483,12 +483,12 @@ class Sonus
     public function bitrate($var, $type = 'audio')
     {
         // Value must be numeric
-        if (!is_numeric($var)) 
+        if (!is_numeric($var))
         {
             return false;
         }
 
-        switch ($type) 
+        switch ($type)
         {
             case 'audio':
                 array_push($this->parameters, '-b:a '.$var.'k');
@@ -515,7 +515,7 @@ class Sonus
     public function channels($var)
     {
         // Value must be numeric
-        if (!is_numeric($var)) 
+        if (!is_numeric($var))
         {
             return false;
         }
@@ -533,7 +533,7 @@ class Sonus
     public function frequency($var)
     {
         // Value must be numeric
-        if (!is_numeric($var)) 
+        if (!is_numeric($var))
         {
             return false;
         }
@@ -554,7 +554,7 @@ class Sonus
         $ffmpeg = self::getConverterPath();
 
         // Check if user provided raw arguments
-        if (is_null($arg)) 
+        if (is_null($arg))
         {
             // If not, use the prepared arguments
             $arg = implode(' ', $this->parameters);
@@ -568,13 +568,13 @@ class Sonus
         $cmd = escapeshellcmd($ffmpeg.' '.$input.' '.$arg.' '.$output);
 
         // Check if progress reporting is enabled
-        if (Config::get('sonus::progress') === true) 
+        if (Config::get('ffmpeg::progress') === true)
         {
             // Get temp dir
             $tmpdir = self::getTempPath();
 
             // Get progress id
-            if (empty($this->progress)) 
+            if (empty($this->progress))
             {
                 // Create a default (unix timestamp)
                 $progress = date('U');
@@ -584,7 +584,7 @@ class Sonus
             }
 
             // Publish progress to this ID
-            $cmd = $cmd.' 1>"'.$tmpdir.$progress.'.sonustmp" 2>&1';
+            $cmd = $cmd.' 1>"'.$tmpdir.$progress.'.ffmpegtmp" 2>&1';
 
             // Execute command
             return shell_exec($cmd);
@@ -607,7 +607,7 @@ class Sonus
 
         // The code below has been adapted from Jimbo
         // http://stackoverflow.com/questions/11441517/ffmpeg-progress-bar-encoding-percentage-in-php
-        $content = @file_get_contents($tmpdir.$job.'.sonustmp');
+        $content = @file_get_contents($tmpdir.$job.'.ffmpegtmp');
 
         if($content)
         {
@@ -650,12 +650,12 @@ class Sonus
                 );
 
             // Return data
-            switch ($format) 
+            switch ($format)
             {
                 case 'array':
                     return $output;
                     break;
-                
+
                 default:
                     return json_encode($output);
                     break;
@@ -670,16 +670,16 @@ class Sonus
      * @param  string $job id
      * @return boolean
      */
-    public static function destroyProgress($job) 
+    public static function destroyProgress($job)
     {
         // Get temporary file path
-        $file = $tmpdir.$job.'.sonustmp';
+        $file = $tmpdir.$job.'.ffmpegtmp';
 
         // Check if file exists
-        if (is_file($file)) 
+        if (is_file($file))
         {
             // Delete file
-            $output = unlink($tmpdir.$job.'.sonustmp');
+            $output = unlink($tmpdir.$job.'.ffmpegtmp');
             return $output;
         } else {
             return false;
@@ -697,9 +697,9 @@ class Sonus
 
         // Iterate through files
         $output = array();
-        foreach ($files as $file) 
+        foreach ($files as $file)
         {
-            if (is_file($file)) 
+            if (is_file($file))
             {
                 // Return result to array
                 $result = unlink($file);
@@ -708,7 +708,7 @@ class Sonus
         }
 
         // If a file could not be deleted, return false
-        if (array_search('false', $output)) 
+        if (array_search('false', $output))
         {
             return false;
         }
@@ -725,5 +725,5 @@ class Sonus
         $cmd = escapeshellcmd($ffprobe.' '.$arg1.' '.$input.' '.$arg2);
         return shell_exec($cmd);
     }
-    
+
 }
