@@ -18,6 +18,9 @@ class FfmpegServiceProvider extends ServiceProvider {
      */
     public function boot()
     {
+        $this->publishes(realpath(__DIR__.'/../../config/ffmpeg.php'), 'ffmpeg');
+
+        $config = $this->app['config']['api'];
         $this->package('linkthrow/ffmpeg');
     }
 
@@ -30,7 +33,7 @@ class FfmpegServiceProvider extends ServiceProvider {
     {
         $this->app['ffmpeg'] = $this->app->share(function($app)
         {
-            return new ffmpeg;
+            return new FFMPEG;
         });
     }
 
