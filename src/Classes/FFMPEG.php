@@ -19,7 +19,7 @@ class FFMPEG
      */
     protected static function getConverterPath()
     {
-        return Config::get('ffmpeg::ffmpeg');
+        return Config::get('ffmpeg.ffmpeg');
     }
 
     /**
@@ -28,7 +28,7 @@ class FFMPEG
      */
     protected static function getProbePath()
     {
-        return Config::get('ffmpeg::ffprobe');
+        return Config::get('ffmpeg.ffprobe');
     }
 
     /**
@@ -37,7 +37,7 @@ class FFMPEG
      */
     protected static function getTempPath()
     {
-        return Config::get('ffmpeg::tmp_dir');
+        return Config::get('ffmpeg.tmp_dir');
     }
 
     /**
@@ -568,7 +568,7 @@ class FFMPEG
         $cmd = escapeshellcmd($ffmpeg.' '.$input.' '.$arg.' '.$output);
 
         // Check if progress reporting is enabled
-        if (Config::get('ffmpeg::progress') === true)
+        if (Config::get('ffmpeg.progress') === true)
         {
             // Get temp dir
             $tmpdir = self::getTempPath();
