@@ -1,8 +1,8 @@
-<?php namespace Closca\Sonus;
+<?php namespace Linkthrow\Ffmpeg;
 
-use Illuminate\Support\Facades\Facade as IlluminateFacade;
+use Illuminate\Support\Facades\Facade;
 
-class Facade extends IlluminateFacade {
+class FfmpegFacade extends Facade {
 
     /**
      * Get the registered name of the component.
@@ -11,6 +11,6 @@ class Facade extends IlluminateFacade {
      */
     protected static function getFacadeAccessor()
     {
-        return 'sonus';
+        return 'ffmpeg';
     }
 }

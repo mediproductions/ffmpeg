@@ -17,7 +17,7 @@ return array(
     | Linux:   '/usr/bin/ffmpeg'
     |
     */
-   
+
    'ffmpeg'        => '',
 
     /*
@@ -54,7 +54,7 @@ return array(
     | Temporary Directory
     |--------------------------------------------------------------------------
     |
-    | In order to monitor the progress of running tasks ffmpeg will need to write
+    | In order to monitor the progress of running tasks Sonus will need to write
     | temporary files during the encoding progress. Please set a directory where
     | these can be written to, but make sure PHP is able to read and write to it.
     |

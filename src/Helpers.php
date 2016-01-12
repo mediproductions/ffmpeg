@@ -1,4 +1,4 @@
-<?php namespace Closca\Sonus;
+<?php namespace Linkthrow\Ffmpeg;
 
 class Helpers
 {
@@ -11,7 +11,7 @@ class Helpers
     {
         // Extract hour, minute, and seconds
         $time = explode(":", $string);
-        
+
         // Convert to seconds (round up to nearest second)
         $secs = ($time[0] * 3600) + ($time[1] * 60) + (ceil($time[2]));
         return $secs;
