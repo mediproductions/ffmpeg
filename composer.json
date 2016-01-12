@@ -27,7 +27,11 @@
     "autoload": {
         "psr-4": {
             "LinkThrow\\Ffmpeg\\": "src"
-        }
+        },
+        "files": [
+            "src/Classes/FFMPEG.php",
+            "src/Helpers.php"
+        ]
     },
     "minimum-stability": "dev"
 }

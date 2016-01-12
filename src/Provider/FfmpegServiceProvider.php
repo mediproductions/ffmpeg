@@ -1,5 +1,6 @@
-<?php namespace LinkThrow\Ffmpeg;
+<?php namespace LinkThrow\Ffmpeg\Provider;
 
+use Linkthrow\Ffmpeg\Classes\FFMPEG;
 use Illuminate\Support\ServiceProvider;
 
 class FfmpegServiceProvider extends ServiceProvider {
@@ -18,10 +19,11 @@ class FfmpegServiceProvider extends ServiceProvider {
      */
     public function boot()
     {
-        $this->publishes(realpath(__DIR__.'/../../config/ffmpeg.php'), 'ffmpeg');
+        $this->publishes([
+            realpath(__DIR__.'/../../config/ffmpeg.php') => config_path('ffmpeg.php'),
+        ]);
 
         $config = $this->app['config']['api'];
-        $this->package('linkthrow/ffmpeg');
     }
 
     /**
