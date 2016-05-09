@@ -267,9 +267,10 @@ class FFMPEG
      * @param  string  $output output filename
      * @param  integer $count  number of thumbnails to generate
      * @param  string  $format thumbnail format
+     * @param  string  $arg    user arguments
      * @return boolean
      */
-    public static function getThumbnails($input, $output, $count = 5, $format = 'png')
+    public static function getThumbnails($input, $output, $count = 5, $format = 'png', $arg = null)
     {
         // Round user input
         $count = round($count);
@@ -280,8 +281,13 @@ class FFMPEG
             return false;
         }
 
+        if (is_null($arg))
+        {
+            $arg = '-vf "select=gt(scene\,0.5)" -frames:v '.$count.' -vsync vfr';
+        }
+
         // Execute thumbnail generator command
-        $command = self::getConverterPath().' -i '.$input.' -vf "select=gt(scene\,0.5)" -frames:v '.$count.' -vsync vfr '.$output.'-%02d.'.$format;
+        $command = self::getConverterPath().' -i '.$input.' '.$arg.' '.$output.'-%02d.'.$format;
         shell_exec($command);
         return true;
     }
