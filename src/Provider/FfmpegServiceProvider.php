@@ -33,7 +33,7 @@ class FfmpegServiceProvider extends ServiceProvider {
      */
     public function register()
     {
-        $this->app['ffmpeg'] = $this->app->share(function($app)
+        $this->app->singleton('ffmpeg', function($app)
         {
             return new FFMPEG;
         });
