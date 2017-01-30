@@ -319,7 +319,26 @@ class FFMPEG
         return true;
     }
 
-
+    /**
+     * move MOOV ATOM (qt-faststart) for MP4 files
+     * @param  string  $input  video input
+     * @param  string  $output  video output
+     * @return boolean
+     */
+    public static function moveMoovAtom($input,$output='')
+    {
+        if(substr($input,-4)==".mp4")
+        {
+            //ffmpeg -i input.mp4 -codec copy -map 0 -movflags +faststart output.mp4
+            $output = $output=='' ? str_replace('.mp4','_tmp.mp4',$input) : $output;
+            $command = self::getConverterPath().' -i '.$input.' -y -codec copy -map 0 -movflags +faststart '.$output.' 2>&1';   
+            shell_exec($command);
+            return true;
+        }
+        
+        return false; 
+    }
+    
     /**
      * Input files
      * @var array
