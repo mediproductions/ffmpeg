@@ -1,4 +1,6 @@
-<?php namespace Linkthrow\Ffmpeg\Classes;
+<?php
+
+namespace Linkthrow\Ffmpeg\Classes;
 
 use Config;
 use Linkthrow\Ffmpeg\Helpers;
@@ -10,15 +12,13 @@ use Linkthrow\Ffmpeg\Helpers;
  *
  * @author     Rafael Sampaio <rafaelsampaio@live.com>
  */
+class FFMPEG {
 
-class FFMPEG
-{
     /**
      * Returns full path of ffmpeg
      * @return string
      */
-    protected static function getConverterPath()
-    {
+    protected static function getConverterPath() {
         return Config::get('ffmpeg.ffmpeg');
     }
 
@@ -26,8 +26,7 @@ class FFMPEG
      * Returns full path of ffprobe
      * @return string
      */
-    protected static function getProbePath()
-    {
+    protected static function getProbePath() {
         return Config::get('ffmpeg.ffprobe');
     }
 
@@ -35,8 +34,7 @@ class FFMPEG
      * Returns full path for progress temp files
      * @return [type] [description]
      */
-    protected static function getTempPath()
-    {
+    protected static function getTempPath() {
         return Config::get('ffmpeg.tmp_dir');
     }
 
@@ -44,18 +42,16 @@ class FFMPEG
      * Returns installed ffmpeg version
      * @return array
      */
-    public static function getConverterVersion()
-    {
+    public static function getConverterVersion() {
         // Run terminal command to retrieve version
-        $command = self::getConverterPath().' -version';
-        $output  = shell_exec($command);
+        $command = self::getConverterPath() . ' -version';
+        $output = shell_exec($command);
 
         // PREG pattern to retrive version information
         $ouput = preg_match("/ffmpeg version (?P<major>[0-9]{0,3}).(?P<minor>[0-9]{0,3}).(?P<revision>[0-9]{0,3})/", $output, $parsed);
 
         // Verify output
-        if ($output === false || $output == 0)
-        {
+        if ($output === false || $output == 0) {
             return false;
         }
 
@@ -63,8 +59,8 @@ class FFMPEG
         $version = array(
             'major' => $parsed['major'],
             'minor' => $parsed['minor'],
-            'rev'   => $parsed['revision']
-            );
+            'rev' => $parsed['revision']
+        );
 
         return $version;
     }
@@ -73,18 +69,16 @@ class FFMPEG
      * Returns all formats ffmpeg supports
      * @return array
      */
-    public static function getSupportedFormats()
-    {
+    public static function getSupportedFormats() {
         // Run terminal command
-        $command = self::getConverterPath().' -formats';
-        $output  = shell_exec($command);
+        $command = self::getConverterPath() . ' -formats';
+        $output = shell_exec($command);
 
         // PREG pattern to retrive version information
         $output = preg_match_all("/(?P<mux>(D\s|\sE|DE))\s(?P<format>\S{3,11})\s/", $output, $parsed);
 
         // Verify output
-        if ($output === false || $output == 0)
-        {
+        if ($output === false || $output == 0) {
             return false;
         }
 
@@ -98,18 +92,16 @@ class FFMPEG
      * Returns all audio formats ffmpeg can encode
      * @return array
      */
-    public static function getSupportedAudioEncoders()
-    {
+    public static function getSupportedAudioEncoders() {
         // Run terminal command
-        $command = self::getConverterPath().' -encoders';
-        $output  = shell_exec($command);
+        $command = self::getConverterPath() . ' -encoders';
+        $output = shell_exec($command);
 
         // PREG pattern to retrive version information
         $output = preg_match_all("/[A]([.]|\w)([.]|\w)([.]|\w)([.]|\w)([.]|\w)\s(?P<format>\S{3,20})\s/", $output, $parsed);
 
         // Verify output
-        if ($output === false || $output == 0)
-        {
+        if ($output === false || $output == 0) {
             return false;
         }
 
@@ -120,18 +112,16 @@ class FFMPEG
      * Returns all video formats ffmpeg can encode
      * @return array
      */
-    public static function getSupportedVideoEncoders()
-    {
+    public static function getSupportedVideoEncoders() {
         // Run terminal command
-        $command = self::getConverterPath().' -encoders';
-        $output  = shell_exec($command);
+        $command = self::getConverterPath() . ' -encoders';
+        $output = shell_exec($command);
 
         // PREG pattern to retrive version information
         $output = preg_match_all("/[V]([.]|\w)([.]|\w)([.]|\w)([.]|\w)([.]|\w)\s(?P<format>\S{3,20})\s/", $output, $parsed);
 
         // Verify output
-        if ($output === false || $output == 0)
-        {
+        if ($output === false || $output == 0) {
             return false;
         }
 
@@ -142,18 +132,16 @@ class FFMPEG
      * Returns all audio formats ffmpeg can decode
      * @return array
      */
-    public static function getSupportedAudioDecoders()
-    {
+    public static function getSupportedAudioDecoders() {
         // Run terminal command
-        $command = self::getConverterPath().' -decoders';
-        $output  = shell_exec($command);
+        $command = self::getConverterPath() . ' -decoders';
+        $output = shell_exec($command);
 
         // PREG pattern to retrive version information
         $output = preg_match_all("/[A]([.]|\w)([.]|\w)([.]|\w)([.]|\w)([.]|\w)\s(?P<format>\w{3,20})\s/", $output, $parsed);
 
         // Verify output
-        if ($output === false || $output == 0)
-        {
+        if ($output === false || $output == 0) {
             return false;
         }
 
@@ -164,18 +152,16 @@ class FFMPEG
      * Returns all video formats ffmpeg can decode
      * @return array
      */
-    public static function getSupportedVideoDecoders()
-    {
+    public static function getSupportedVideoDecoders() {
         // Run terminal command
-        $command = self::getConverterPath().' -decoders';
-        $output  = shell_exec($command);
+        $command = self::getConverterPath() . ' -decoders';
+        $output = shell_exec($command);
 
         // PREG pattern to retrive version information
         $output = preg_match_all("/[V]([.]|\w)([.]|\w)([.]|\w)([.]|\w)([.]|\w)\s(?P<format>\w{3,20})\s/", $output, $parsed);
 
         // Verify output
-        if ($output === false || $output == 0)
-        {
+        if ($output === false || $output == 0) {
             return false;
         }
 
@@ -187,13 +173,11 @@ class FFMPEG
      * @param  string $format ffmpeg format name
      * @return boolean
      */
-    public static function canEncode($format)
-    {
+    public static function canEncode($format) {
         $formats = array_merge(self::getSupportedAudioEncoders(), self::getSupportedVideoEncoders());
 
         // Return boolean if they can be encoded or not
-        if(!in_array($format, $formats))
-        {
+        if (!in_array($format, $formats)) {
             return false;
         } else {
             return true;
@@ -205,16 +189,14 @@ class FFMPEG
      * @param  string $format ffmpeg format name
      * @return boolean
      */
-    public static function canDecode($format)
-    {
+    public static function canDecode($format) {
         // Get an array with all supported encoding formats
         $formats = array_merge(self::getSupportedAudioDecoders(), self::getSupportedVideoDecoders());
 
         // Return boolean if they can be encoded or not
-        if(!in_array($format, $formats))
-        {
+        if (!in_array($format, $formats)) {
             return false;
-        } else  {
+        } else {
             return true;
         }
     }
@@ -225,36 +207,33 @@ class FFMPEG
      * @param  string $type output format
      * @return array, json, xml, csv
      */
-    public static function getMediaInfo($input, $type = null)
-    {
+    public static function getMediaInfo($input, $type = null) {
         // Just making sure everything goes smooth
-        if (substr($input, 0, 2) == '-i')
-        {
+        if (substr($input, 0, 2) == '-i') {
             $input = substr($input, 3);
         }
 
-        switch ($type)
-        {
+        switch ($type) {
             case 'json':
-                $command = self::getProbePath().' -v quiet -print_format json -show_format -show_streams -pretty -i '.$input.' 2>&1';
-                $output  = shell_exec($command);
-                $output  = json_decode($output, true);
+                $command = self::getProbePath() . ' -v quiet -print_format json -show_format -show_streams -pretty -i ' . $input . ' 2>&1';
+                $output = shell_exec($command);
+                $output = json_decode($output, true);
                 break;
 
             case 'xml':
-                $command = self::getProbePath().' -v quiet -print_format xml -show_format -show_streams -pretty -i '.$input.' 2>&1';
-                $output  = shell_exec($command);
+                $command = self::getProbePath() . ' -v quiet -print_format xml -show_format -show_streams -pretty -i ' . $input . ' 2>&1';
+                $output = shell_exec($command);
                 break;
 
             case 'csv':
-                $command = self::getProbePath().' -v quiet -print_format csv -show_format -show_streams -pretty -i '.$input.' 2>&1';
-                $output  = shell_exec($command);
+                $command = self::getProbePath() . ' -v quiet -print_format csv -show_format -show_streams -pretty -i ' . $input . ' 2>&1';
+                $output = shell_exec($command);
                 break;
 
             default:
-                $command = self::getProbePath().' -v quiet -print_format json -show_format -show_streams -pretty -i '.$input.' 2>&1';
-                $output  = shell_exec($command);
-                $output  = json_decode($output, true);
+                $command = self::getProbePath() . ' -v quiet -print_format json -show_format -show_streams -pretty -i ' . $input . ' 2>&1';
+                $output = shell_exec($command);
+                $output = json_decode($output, true);
                 break;
         }
 
@@ -270,24 +249,21 @@ class FFMPEG
      * @param  string  $arg    user arguments
      * @return boolean
      */
-    public static function getThumbnails($input, $output, $count = 5, $format = 'png', $arg = null)
-    {
+    public static function getThumbnails($input, $output, $count = 5, $format = 'png', $arg = null) {
         // Round user input
         $count = round($count);
 
         // Return false if user requests 0 frames or round function fails
-        if ($count < 1)
-        {
+        if ($count < 1) {
             return false;
         }
 
-        if (is_null($arg))
-        {
-            $arg = '-vf "select=gt(scene\,0.5)" -frames:v '.$count.' -vsync vfr';
+        if (is_null($arg)) {
+            $arg = '-vf "select=gt(scene\,0.5)" -frames:v ' . $count . ' -vsync vfr';
         }
 
         // Execute thumbnail generator command
-        $command = self::getConverterPath().' -i '.$input.' '.$arg.' '.$output.'-%02d.'.$format;
+        $command = self::getConverterPath() . ' -i ' . $input . ' ' . $arg . ' ' . $output . '-%02d.' . $format;
         shell_exec($command);
         return true;
     }
@@ -301,20 +277,18 @@ class FFMPEG
      * @param  string  $format thumbnail format
      * @return boolean
      */
-    public static function thumbnify($input,$output, $count=5, $duration, $format = 'png')
-    {
+    public static function thumbnify($input, $output, $count = 5, $duration, $format = 'png') {
         //Get the timings for thumbs
-        $total=$duration/$count;
-        $total=round($total);
+        $total = $duration / $count;
+        $total = round($total);
 
         // Return false if user requests 0 frames or round function fails
-        if ($count < 1)
-        {
+        if ($count < 1) {
             return false;
         }
 
         // Execute thumbnail generator command
-        $command = self::getConverterPath().' -i '.$input.' -vf fps=fps=1/'.$total.' '.$output.'-%02d.'.$format;
+        $command = self::getConverterPath() . ' -i ' . $input . ' -vf fps=fps=1/' . $total . ' ' . $output . '-%02d.' . $format;
         shell_exec($command);
         return true;
     }
@@ -325,20 +299,18 @@ class FFMPEG
      * @param  string  $output  video output
      * @return boolean
      */
-    public static function moveMoovAtom($input,$output='')
-    {
-        if(substr($input,-4)==".mp4")
-        {
+    public static function moveMoovAtom($input, $output = '') {
+        if (substr($input, -4) == ".mp4") {
             //ffmpeg -i input.mp4 -codec copy -map 0 -movflags +faststart output.mp4
-            $output = $output=='' ? str_replace('.mp4','_tmp.mp4',$input) : $output;
-            $command = self::getConverterPath().' -i '.$input.' -y -codec copy -map 0 -movflags +faststart '.$output.' 2>&1';   
+            $output = $output == '' ? str_replace('.mp4', '_tmp.mp4', $input) : $output;
+            $command = self::getConverterPath() . ' -i ' . $input . ' -y -codec copy -map 0 -movflags +faststart ' . $output . ' 2>&1';
             shell_exec($command);
             return true;
         }
-        
-        return false; 
+
+        return false;
     }
-    
+
     /**
      * Input files
      * @var array
@@ -367,8 +339,7 @@ class FFMPEG
      * Returns object instance for chainable methods
      * @return object
      */
-    public static function convert()
-    {
+    public static function convert() {
         $ffmpeg = new ffmpeg;
         return $ffmpeg;
     }
@@ -378,11 +349,9 @@ class FFMPEG
      * @param  string $var progress id
      * @return null
      */
-    public function progress($var)
-    {
+    public function progress($var) {
         // If value is null pass current timestamp
-        if (is_null($var))
-        {
+        if (is_null($var)) {
             $this->progress = date('U');
             return $this;
         } else {
@@ -396,15 +365,13 @@ class FFMPEG
      * @param  string $var filename
      * @return boolean
      */
-    public function input($var)
-    {
+    public function input($var) {
         // Value must be text
-        if (!is_string($var))
-        {
+        if (!is_string($var)) {
             return false;
         }
 
-        array_push($this->input, '-i '.$var);
+        array_push($this->input, '-i ' . $var);
         return $this;
     }
 
@@ -413,11 +380,9 @@ class FFMPEG
      * @param  string $var filename
      * @return boolean
      */
-    public function output($var)
-    {
+    public function output($var) {
         // Value must be text
-        if (!is_string($var))
-        {
+        if (!is_string($var)) {
             return false;
         }
 
@@ -430,10 +395,8 @@ class FFMPEG
      * @param  boolean $var
      * @return boolean
      */
-    public function overwrite($var = true)
-    {
-        switch ($var)
-        {
+    public function overwrite($var = true) {
+        switch ($var) {
             case true:
                 array_push($this->parameters, '-y');
                 return $this;
@@ -455,15 +418,13 @@ class FFMPEG
      * @param  int $var seconds
      * @return boolean
      */
-    public function timelimit($var)
-    {
+    public function timelimit($var) {
         // Value must be numeric
-        if (!is_numeric($var))
-        {
+        if (!is_numeric($var)) {
             return false;
         }
 
-        array_push($this->parameters, '-timelimit '.$var);
+        array_push($this->parameters, '-timelimit ' . $var);
         return $this;
     }
 
@@ -474,23 +435,20 @@ class FFMPEG
      * @param   string $var ffmpeg codec name
      * @return  boolean
      */
-    public function codec($var, $type = 'audio')
-    {
+    public function codec($var, $type = 'audio') {
         // Value must not be null
-        if (is_null($var))
-        {
+        if (is_null($var)) {
             return false;
         }
 
-        switch($type)
-        {
+        switch ($type) {
             case 'audio':
-                array_push($this->parameters, '-c:a '.$var);
+                array_push($this->parameters, '-c:a ' . $var);
                 return $this;
                 break;
 
             case 'video':
-                array_push($this->parameters, '-c:v '.$var);
+                array_push($this->parameters, '-c:v ' . $var);
                 return $this;
                 break;
 
@@ -501,27 +459,50 @@ class FFMPEG
     }
 
     /**
+     * move ATOM
+     * @return  boolean
+     */
+    public function moveATOM() {
+        array_push($this->parameters, '-movflags +faststart');
+        return $this;
+    }
+
+    /**
+     * Resize the video
+     * 
+     * @param int $width width
+     * @param int $height height
+     * @return boolean
+     */
+    public function resize($width, $height) {
+        // Value must be numeric
+        if (!is_numeric($width) || !is_numeric($height)) {
+            return false;
+        }
+
+        array_push($this->parameters, "-vf scale=w=$width:h=$height:force_original_aspect_ratio=decrease");
+        return $this;
+    }
+
+    /**
      * Sets the constant bitrate
      * @param int $var bitrate
      * @return boolean
      */
-    public function bitrate($var, $type = 'audio')
-    {
+    public function bitrate($var, $type = 'audio') {
         // Value must be numeric
-        if (!is_numeric($var))
-        {
+        if (!is_numeric($var)) {
             return false;
         }
 
-        switch ($type)
-        {
+        switch ($type) {
             case 'audio':
-                array_push($this->parameters, '-b:a '.$var.'k');
+                array_push($this->parameters, '-b:a ' . $var . 'k');
                 return $this;
                 break;
 
             case 'video':
-                array_push($this->parameters, '-b:v '.$var.'k');
+                array_push($this->parameters, '-b:v ' . $var . 'k');
                 return $this;
                 break;
 
@@ -537,15 +518,13 @@ class FFMPEG
      * @param string $var
      * @return boolean
      */
-    public function channels($var)
-    {
+    public function channels($var) {
         // Value must be numeric
-        if (!is_numeric($var))
-        {
+        if (!is_numeric($var)) {
             return false;
         }
 
-        array_push($this->parameters, '-ac '.$var);
+        array_push($this->parameters, '-ac ' . $var);
         return $this;
     }
 
@@ -555,15 +534,13 @@ class FFMPEG
      * @param int $var frequency
      * @return boolean
      */
-    public function frequency($var)
-    {
+    public function frequency($var) {
         // Value must be numeric
-        if (!is_numeric($var))
-        {
+        if (!is_numeric($var)) {
             return false;
         }
 
-        array_push($this->parameters, '-ar:a '.$var);
+        array_push($this->parameters, '-ar:a ' . $var);
         return $this;
     }
 
@@ -573,34 +550,30 @@ class FFMPEG
      * @return string      tracking code
      * @return boolean     false on error
      */
-    public function go($arg = null)
-    {
+    public function go($arg = null) {
         // Assign converter path
         $ffmpeg = self::getConverterPath();
 
         // Check if user provided raw arguments
-        if (is_null($arg))
-        {
+        if (is_null($arg)) {
             // If not, use the prepared arguments
             $arg = implode(' ', $this->parameters);
         }
 
         // Return input and output files
-        $input  = implode(' ', $this->input);
+        $input = implode(' ', $this->input);
         $output = implode(' ', $this->output);
 
         // Prepare the command
-        $cmd = escapeshellcmd($ffmpeg.' '.$input.' '.$arg.' '.$output);
+        $cmd = escapeshellcmd($ffmpeg . ' ' . $input . ' ' . $arg . ' ' . $output);
 
         // Check if progress reporting is enabled
-        if (Config::get('ffmpeg.progress') === true)
-        {
+        if (Config::get('ffmpeg.progress') === true) {
             // Get temp dir
             $tmpdir = self::getTempPath();
 
             // Get progress id
-            if (empty($this->progress))
-            {
+            if (empty($this->progress)) {
                 // Create a default (unix timestamp)
                 $progress = date('U');
             } else {
@@ -609,7 +582,7 @@ class FFMPEG
             }
 
             // Publish progress to this ID
-            $cmd = $cmd.' 1>"'.$tmpdir.$progress.'.ffmpegtmp" 2>&1';
+            $cmd = $cmd . ' 1>"' . $tmpdir . $progress . '.ffmpegtmp" 2>&1';
 
             // Execute command
             return shell_exec($cmd);
@@ -625,17 +598,15 @@ class FFMPEG
      * @param  string $format format to output data
      * @return array
      */
-    public static function getProgress($job, $format = null)
-    {
+    public static function getProgress($job, $format = null) {
         // Get the temporary directory
         $tmpdir = self::getTempPath();
 
         // The code below has been adapted from Jimbo
         // http://stackoverflow.com/questions/11441517/ffmpeg-progress-bar-encoding-percentage-in-php
-        $content = @file_get_contents($tmpdir.$job.'.ffmpegtmp');
+        $content = @file_get_contents($tmpdir . $job . '.ffmpegtmp');
 
-        if($content)
-        {
+        if ($content) {
             // Get duration of source
             preg_match("/Duration: (.*?), start:/", $content, $matches);
 
@@ -644,8 +615,10 @@ class FFMPEG
             // rawDuration is in 00:00:00.00 format. This converts it to seconds.
             $ar = array_reverse(explode(":", $rawDuration));
             $duration = floatval($ar[0]);
-            if (!empty($ar[1])) $duration += intval($ar[1]) * 60;
-            if (!empty($ar[2])) $duration += intval($ar[2]) * 60 * 60;
+            if (!empty($ar[1]))
+                $duration += intval($ar[1]) * 60;
+            if (!empty($ar[2]))
+                $duration += intval($ar[2]) * 60 * 60;
 
             // Get the time in the file that is already encoded
             preg_match_all("/time=(.*?) bitrate/", $content, $matches);
@@ -653,30 +626,30 @@ class FFMPEG
             $rawTime = array_pop($matches);
 
             // This is needed if there is more than one match
-            if (is_array($rawTime))
-            {
+            if (is_array($rawTime)) {
                 $rawTime = array_pop($rawTime);
             }
 
             // rawTime is in 00:00:00.00 format. This converts it to seconds.
             $ar = array_reverse(explode(":", $rawTime));
             $time = floatval($ar[0]);
-            if (!empty($ar[1])) $time += intval($ar[1]) * 60;
-            if (!empty($ar[2])) $time += intval($ar[2]) * 60 * 60;
+            if (!empty($ar[1]))
+                $time += intval($ar[1]) * 60;
+            if (!empty($ar[2]))
+                $time += intval($ar[2]) * 60 * 60;
 
             // Calculate the progress
-            $progress = round(($time/$duration) * 100);
+            $progress = round(($time / $duration) * 100);
 
             // Output to array
             $output = array(
                 'Duration' => $rawDuration,
-                'Current'  => $rawTime,
+                'Current' => $rawTime,
                 'Progress' => $progress
-                );
+            );
 
             // Return data
-            switch ($format)
-            {
+            switch ($format) {
                 case 'array':
                     return $output;
                     break;
@@ -695,16 +668,14 @@ class FFMPEG
      * @param  string $job id
      * @return boolean
      */
-    public static function destroyProgress($job)
-    {
+    public static function destroyProgress($job) {
         // Get temporary file path
-        $file = $tmpdir.$job.'.ffmpegtmp';
+        $file = $tmpdir . $job . '.ffmpegtmp';
 
         // Check if file exists
-        if (is_file($file))
-        {
+        if (is_file($file)) {
             // Delete file
-            $output = unlink($tmpdir.$job.'.ffmpegtmp');
+            $output = unlink($tmpdir . $job . '.ffmpegtmp');
             return $output;
         } else {
             return false;
@@ -715,17 +686,14 @@ class FFMPEG
      * Deletes all temporary files
      * @return boolean
      */
-    public static function destroyAllProgress()
-    {
+    public static function destroyAllProgress() {
         // Get all filenames within the temporary folder
-        $files = glob($tmpdir.'*');
+        $files = glob($tmpdir . '*');
 
         // Iterate through files
         $output = array();
-        foreach ($files as $file)
-        {
-            if (is_file($file))
-            {
+        foreach ($files as $file) {
+            if (is_file($file)) {
                 // Return result to array
                 $result = unlink($file);
                 array_push($output, var_export($result, true));
@@ -733,21 +701,19 @@ class FFMPEG
         }
 
         // If a file could not be deleted, return false
-        if (array_search('false', $output))
-        {
+        if (array_search('false', $output)) {
             return false;
         }
 
         return true;
     }
 
-    public function getVideoJsonDetails()
-    {
+    public function getVideoJsonDetails() {
         $ffprobe = self::getProbePath();
-        $input  = implode(' ', $this->input);
-        $arg1=" -loglevel error -show_format -show_streams";
-        $arg2=" -print_format json";
-        $cmd = escapeshellcmd($ffprobe.' '.$arg1.' '.$input.' '.$arg2);
+        $input = implode(' ', $this->input);
+        $arg1 = " -loglevel error -show_format -show_streams";
+        $arg2 = " -print_format json";
+        $cmd = escapeshellcmd($ffprobe . ' ' . $arg1 . ' ' . $input . ' ' . $arg2);
         return shell_exec($cmd);
     }
 
